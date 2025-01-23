@@ -4,7 +4,9 @@
 This backend application provides APIs for managing tasks and user authentication. It features two models: `Task` and `User`, with routes, controllers, and middleware for handling tasks and user-related functionality. The application is built using Node.js, Express, and MongoDB (via Mongoose).
 
 ---
-
+Also here admin details to see all tasks
+email:user@gmail.com
+passowrd:123
 ## Features
 ### **Tasks**
 - **Routes**:
