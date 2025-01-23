@@ -1,0 +1,69 @@
+<div class="min-h-screen bg-gray-100">
+    <header class="bg-blue-500 text-white py-4 flex items-center justify-between px-4">
+        <h1 class="text-2xl font-bold">Task Management System</h1>
+        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" (click)="handleLogout()">
+            Logout
+        </button>
+    </header>
+
+    <div class="container mx-auto p-4">
+        <app-task-create></app-task-create>
+
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <label for="statusFilter" class="block text-sm font-medium text-gray-700">Filter by Status:</label>
+                <select id="statusFilter" [(ngModel)]="statusFilter" class="border-gray-300 rounded-md shadow-sm"
+                    (change)="applyFilters()">
+                    <option value="all">All</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Incomplete">Incomplete</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="dueDateFilter" class="block text-sm font-medium text-gray-700">Filter by Due Date:</label>
+                <input type="date" id="dueDateFilter" [(ngModel)]="dueDateFilter"
+                    class="border-gray-300 rounded-md shadow-sm" (change)="applyFilters()" />
+            </div>
+        </div>
+
+        <h2 class="text-xl font-semibold my-4">Task List</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div *ngFor="let task of filteredTasks" class="bg-white shadow-lg p-4 rounded-lg border border-gray-300">
+                <h3 class="text-lg font-bold">{{ task.title }}</h3>
+                <p class="text-gray-700">{{ task.description }}</p>
+                <p class="text-sm text-gray-500">Created On: {{ task.createdDate | date }}</p>
+                <p class="text-sm text-gray-500">Due Date: {{ task.dueDate | date }}</p>
+                <p class="text-sm font-bold" [ngClass]="{
+              'text-green-500': task.status === 'Completed',
+              'text-red-500': task.status === 'Incomplete'
+            }">
+                    Status: {{ task.status }}
+                </p>
+                <div class="flex justify-between mt-4">
+                    <!-- Mark as Completed -->
+                    <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                        *ngIf="task.status === 'Incomplete'" (click)="updateStatus(task._id, 'Completed')">
+                        Mark Completed
+                    </button>
+
+                    <!-- Mark as Incomplete -->
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                        *ngIf="task.status === 'Completed'" (click)="updateStatus(task._id, 'Incomplete')">
+                        Mark Incomplete
+                    </button>
+
+                    <button class="bg-black text-white px-4 py-2 rounded 
+                    ">
+                        Update
+                    </button>
+                    <!-- Delete Task -->
+                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                        (click)="deleteTask(task._id)">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
